@@ -1,0 +1,3 @@
+C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug/CMakeFiles/The_Wiggles_Kashyyyk_hotel.dir
+C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug/CMakeFiles/rebuild_cache.dir

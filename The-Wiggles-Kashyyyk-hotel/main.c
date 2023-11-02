@@ -44,7 +44,7 @@ char checkOut() {
     //each of the subtotals amounts frm amove where it is tleast >0
     //overall bill
 
-    /
+    //
 
     //nice job!
 
@@ -62,7 +62,7 @@ char bookTable() {
 
 
     //task list:
-    // store tables, tatooine, endor, naboo
+    // store tables: tatooine, endor, naboo
 
     return userCharArray and the userIntArray somehow..
 }
@@ -71,8 +71,6 @@ char bookTable() {
 int main() {
     //declaring variables and other shiz
     char choice = 'x';
-    char name[64] = {'a','b'};
-    char surname[64];
 
     //
     //hotel program loop
@@ -102,7 +100,7 @@ int main() {
             //set each int array term in the desired profile to the function's
 
         } else {                   //invalid input
-            printf("\n>Invalid Input");
+            printf("\n>Invalid Input. Try again.");
         }
 
 

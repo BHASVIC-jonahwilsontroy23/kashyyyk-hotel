@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug",
-		"source" : "C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel"
+		"build" : "C:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel/cmake-build-debug",
+		"source" : "C:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel"
 	},
 	"version" : 
 	{

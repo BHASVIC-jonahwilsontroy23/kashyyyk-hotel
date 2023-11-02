@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug"
+			"value" : "c:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -431,7 +431,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -503,7 +503,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel"
+			"value" : "C:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1119,7 +1119,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel/cmake-build-debug"
+			"value" : "C:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel/cmake-build-debug"
 		},
 		{
 			"name" : "The_Wiggles_Kashyyyk_hotel_IS_TOP_LEVEL",
@@ -1143,7 +1143,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/choco/Documents/GitHub/C-chapters/The-Wiggles-Kashyyyk-hotel"
+			"value" : "C:/Users/choco/Documents/GitHub/kashyyyk-hotel/The-Wiggles-Kashyyyk-hotel"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

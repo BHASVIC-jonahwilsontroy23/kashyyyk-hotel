@@ -16,9 +16,10 @@ char checkIn() {
     char userCharArray[which var][which letter of string] //for this decleration, enter max possible array depth/length
     int userIntArray[each term has the variables value] //enter max int variables used for this decleration :0
 
-    //at any point, an input of 0 or e (your choice) will exit the function by using "return 0" or "exit" i think :/
+    //at any point, an input of 0 or e (your choice) will exit the function by using "return 0"
 
     //task list:
+    //exit immediately if all rooms are full.
     //
 
 
@@ -30,7 +31,7 @@ char checkOut() {
     char userCharArray[which var][which letter of string] //for this decleration, enter max possible array depth/length
     int userIntArray[each term has the variables value] //enter max int variables used for this decleration :0
 
-    //at any point, an input of 0 or e (your choice) will exit the function by using "return 0" or "exit" i think :/
+    //at any point, an input of 0 or e (your choice) will exit the function by using "return 0"
 
 
     //task list:
@@ -58,7 +59,7 @@ char bookTable() {
     char userCharArray[which var][which letter of string] //for this decleration, enter max possible array depth/length
     int userIntArray[each term has the variables value] //enter max int variables used for this decleration :0
 
-    //at any point, an input of 0 or e (your choice) will exit the function by using "return 0" or "exit" i think :/
+    //at any point, an input of 0 or e (your choice) will exit the function by using "return 0"
 
 
     //task list:
@@ -113,6 +114,7 @@ int main() {
 //notes section:
 //ben will try to break out code, so make sure to add validation checks!
 //need to have the profile data stored on the computer itself.
+//checkout will use temp variables and update global on finish, while the others can use global variables in the funcs.
 
 
 //test

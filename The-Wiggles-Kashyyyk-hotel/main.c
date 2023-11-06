@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 #define maxStringVariables 3
@@ -18,7 +19,7 @@ int userIntArray[6][maxIntegerVariables];
 // name -> [0]
 // surname -> [1]
 // bookingID -> [2]
-// 
+//
 
 //userIntArray[profile][which var]'s   variables:
 // child guest count -> [0]
@@ -27,9 +28,38 @@ int userIntArray[6][maxIntegerVariables];
 // board type (FB=0, HB=1, BB=2)-> [3]
 // daily newspaper option -> [4]
 // Date of birth -> [5]
-//
-int x=0
-void ArraychildGC(int profile){
+//Room number -> [6]
+
+//userRoomArray[room][in use]
+//1 - in use
+//0 - not in use
+
+int bookingIDRetriever() {
+    char enteredBookingID[68];
+    int profile;
+    int done = 0;
+    fflush(stdin);
+    do {
+        printf("Enter bookingID (or 'exit' to exit): ");
+        scanf("%64s", enteredBookingID);
+        printf("Input = %s\n", enteredBookingID);
+        for (int i = 0; i < 6; i++) {
+            if (strcmp(enteredBookingID, userCharArray[i][2])) {
+                profile = i;
+                printf(">Match found with profile %d.", i);
+                done = 1;
+            } else if (strcmp(enteredBookingID, "exit")) {
+                profile = 10;
+                done = 1;
+            } else {
+                printf("Try again.\n");
+            }
+        }
+    } while (!done);
+    return profile;
+}
+
+void ArraychildGC(int profile) {
     printf("how many children are included in your booking?");
     fflush(stdin);
     scanf("%d", &userIntArray[profile][0]);
@@ -49,14 +79,22 @@ void BoardType(int profile) {
     fflush(stdin);
 
 
+
 }
 //function area
 int checkIn(int roomsOccupied) {
     //ed
     // Key: userCharArray[profile][which var][which letter of string]
     // Key: userIntArray[profile][variable]
+    int profile = bookingIDRetriever();
+    if (profile == 10) {
+        exit(0);
+    }
+
 
     //at any point, an input of 0 or e (your choice) will clear and exits the function by using "return roomsOccupied"
+
+    // strcpy(userCharArray[2][2], "Smith9999"); // this is how to ammend the string var bookingID for profile 3. prolly.
 
     //task list:
     //exit immediately if all rooms are full.
@@ -65,6 +103,25 @@ int checkIn(int roomsOccupied) {
     //display room options
     //take room choice input
     //update room info and profile info.
+
+    fflush(stdin);
+
+    printf("how many children are included in your booking?");
+    scanf("%d", &userIntArray[profile][0]);
+    printf("how many adults are in your booking?");
+    scanf("%d",&userIntArray[profile][1]);
+    printf("how long are you staying for?");
+    scanf("%d", &userIntArray[profile][2]);
+    printf("what type of booking do you have? FB=0 HB=1 BB=2");
+    scanf("%d",&userIntArray[profile][2]);
+    printf("would you like a daily newspaper? yes=1 no=0")
+    scanf("%d",&userIntArray[profile][3])
+    printf("what is your DOB? please write in format: ddmmyyyy")
+    scanf("%d",&userIntArray[profile][4])
+    
+
+
+
     int profile = roomsOccupied;
     ArraychildGC(profile);
 
@@ -78,6 +135,10 @@ void checkOut() {
     //christian
     // Key: userCharArray[profile][which var][which letter of string]
     // Key: userIntArray[profile][variable]
+    int profile = bookingIDRetriever();
+    if (profile == 10) {
+        exit(0);
+    }
 
     //at any point, an input of 0 or e (your choice) will exit the function by using "return 0
 
@@ -91,6 +152,8 @@ void checkOut() {
     int idPos = 0;
     bool idFound = false;
 
+    int cost = 0;
+
 
 
 
@@ -99,49 +162,33 @@ void checkOut() {
 
 
 
-
-    while (idFound == false)
-    {
-
-
-        printf("Enter Booking ID");
-        scanf("%d",&BookingID);
-        // ill sort this bookingID inputting section
-
-
-
-        for (i=0;i<6;i++) {
-            for (j=0;j<6;j++) {
-
-                if (userCharArray[i][j] == BookingID)
-                {
-                    namePos = i;
-                    sNamePos = j;
-                    idPos = k;
-                    idFound = true;
-                }
-            }
-        }
-
-        if (idFound = false)
-    }
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
     //calculate total cost of room
+
+    else if (userIntArray[6]==1 || userIntArray[6]==2)
+    {
+        cost = 100
+    }
+    else if (userIntArray[6]==3)
+    {
+        cost = 85
+    }
+    else if (userIntArray[6]==4 || userIntArray[6]==5)
+    {
+        cost = 75
+    }
+    else if (userIntArray[6]==6)
+    {
+        cost = 50
+    }
+
+}
+
+
+
+
+
+
+
     // calculate  total cost of parties board (meal)
     //if had daily newspapers add 5.50
     //if user age > 65 10% discount on the room rate
@@ -158,18 +205,24 @@ void checkOut() {
 
 }
 
+
 void bookTable() {
     //jonah
 
+    char enteredBookingID[68];
+    int profile;
     for (int i=0;i<6;i++) {
-        char enteredBookingID[68];
-        int profile;
+        fflush(stdin);
+
         printf("Enter bookingID: ")
         scanf("%s", enteredBookingID);
-        strcpy(userCharArray[2][2],"Smith9999");
-        printf("\n [2][2] = %s",userCharArray[2][2]);
+        strcpy(userCharArray[2][2], "Smith9999");
+        printf("\n [2][2] = %s", userCharArray[2][2]);
         if (strcmp(enteredBookingID, userCharArray[i][2])) {
             profile = i;
+        } else {
+            profile = 10;
+        }
     }
         printf("\n i = %d",profile);
     // Key: userCharArray[profile][which var][which letter of string]
@@ -193,7 +246,7 @@ int main() {
     char choice = 'x';
     int roomsOccupied = 0;
     for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 6; j++) {
             userIntArray[i][j] = j;
         }
     }
@@ -204,6 +257,13 @@ int main() {
             }
         }
     }
+
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 1; j++) {
+            userRoomArray = 0;
+        }
+
+
 
     while (1) {           // choice loop
         printf("\nChoose a function (i to check in, o to check out, or b to book a table):\n");

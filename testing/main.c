@@ -32,7 +32,7 @@ int main() {
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                userIntArray[i][j] = j;
+                userIntArray[i][j] = 999;
             }
         }
 

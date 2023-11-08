@@ -10,9 +10,11 @@
 
 
 #define maxStringVariables 3
-#define maxIntegerVariables 6
+#define maxIntegerVariables 7
+#define maxRoomVariables 1
 char userCharArray[6][maxStringVariables][64];
 int userIntArray[6][maxIntegerVariables];
+int userRoomArray[6][maxRoomVariables];
 
 //variable dictionary:
 //userCharArray[profile][which var]'s variables:
@@ -152,7 +154,10 @@ void checkOut() {
     int idPos = 0;
     bool idFound = false;
 
-    int cost = 0;
+    int totalCost = 0;
+    int roomCost = 0;
+    int boardCost = 0;
+    int newsPaperCost
 
 
 
@@ -164,33 +169,48 @@ void checkOut() {
 
     //calculate total cost of room
 
-    else if (userIntArray[6]==1 || userIntArray[6]==2)
+    else if (userIntArray[profile][6]==1 || userIntArray[6]==2)
     {
-        cost = 100
+        roomCost = 100
     }
-    else if (userIntArray[6]==3)
+    else if (userIntArray[profile][6]==3)
     {
-        cost = 85
+        roomCost = 85
     }
-    else if (userIntArray[6]==4 || userIntArray[6]==5)
+    else if (userIntArray[profile][6]==4 || userIntArray[profile][6]==5)
     {
-        cost = 75
+        roomCost = 75
     }
-    else if (userIntArray[6]==6)
+    else if (userIntArray[profile][6]==6)
     {
-        cost = 50
+        roomCost = 50
     }
 
-}
+// calculate  total cost of parties board (meal)
+
+    if (userIntArray[profile][3]==1)
+    {
+        boardCost=20*userIntArray[profile][2]
+    }
+    else if (userIntArray[profile][3]==2)
+    {
+        boardCost=15*userIntArray[profile][2]
+    }
+    else if (userIntArray[profile][3]==3)
+    {
+        boardCost=5*userIntArray[profile][2]
+    }
 
 
 
-
-
-
-
-    // calculate  total cost of parties board (meal)
     //if had daily newspapers add 5.50
+
+    if (userIntArray[profile][4] == 1)
+    {
+        newsPaperCost = 5.5
+    }
+    else newsPaperCost = 0
+
     //if user age > 65 10% discount on the room rate
     // if any guests are 16 and under 50% discount on board rate for them
 
@@ -201,7 +221,7 @@ void checkOut() {
 
     //nice job!
 
-    if (userIntArray[profile][4] == 1) {
+
 
 }
 
@@ -260,7 +280,7 @@ int main() {
 
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 1; j++) {
-            userRoomArray = 0;
+            userRoomArray[i][j] = 0;
         }
 
 

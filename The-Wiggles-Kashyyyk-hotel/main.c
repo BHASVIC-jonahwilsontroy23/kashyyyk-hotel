@@ -38,24 +38,26 @@ int userRoomArray[6][maxRoomVariables];
 
 int bookingIDRetriever() {
     char enteredBookingID[68];
-    int profile;
+    int profile = 12;
     int done = 0;
     fflush(stdin);
     do {
         printf("Enter bookingID (or 'exit' to exit): ");
-        scanf("%64s", enteredBookingID);
+        scanf("%s", enteredBookingID);
         printf("Input = %s\n", enteredBookingID);
         for (int i = 0; i < 6; i++) {
-            if (strcmp(enteredBookingID, userCharArray[i][2])) {
+            if (!strcmp(enteredBookingID, userCharArray[i][2])) {
                 profile = i;
                 printf(">Match found with profile %d.", i);
                 done = 1;
-            } else if (strcmp(enteredBookingID, "exit")) {
-                profile = 10;
-                done = 1;
-            } else {
-                printf("Try again.\n");
             }
+        }
+        if (!strcmp(enteredBookingID, "exit")) {
+            profile = 11;
+            done = 1;
+        }
+        if (!done) {
+            printf("Try again.\n");
         }
     } while (!done);
     return profile;
@@ -89,7 +91,8 @@ int checkIn(int roomsOccupied) {
     // Key: userCharArray[profile][which var][which letter of string]
     // Key: userIntArray[profile][variable]
     int profile = bookingIDRetriever();
-    if (profile == 10) {
+    if (profile > 10) {
+        printf(">Exiting...\n");
         exit(0);
     }
 
@@ -138,7 +141,8 @@ void checkOut() {
     // Key: userCharArray[profile][which var][which letter of string]
     // Key: userIntArray[profile][variable]
     int profile = bookingIDRetriever();
-    if (profile == 10) {
+    if (profile > 10) {
+        printf(">Exiting...\n");
         exit(0);
     }
 
@@ -228,23 +232,19 @@ void checkOut() {
 
 void bookTable() {
     //jonah
-
-    char enteredBookingID[68];
-    int profile;
-    for (int i=0;i<6;i++) {
-        fflush(stdin);
-
-        printf("Enter bookingID: ")
-        scanf("%s", enteredBookingID);
-        strcpy(userCharArray[2][2], "Smith9999");
-        printf("\n [2][2] = %s", userCharArray[2][2]);
-        if (strcmp(enteredBookingID, userCharArray[i][2])) {
-            profile = i;
-        } else {
-            profile = 10;
-        }
+    int profile = bookingIDRetriever();
+    if (profile > 10) {
+        printf(">Exiting...\n")
+        exit(0);
     }
-        printf("\n i = %d",profile);
+
+    if (userIntArray[profile][0] + userIntArray[profile][1] > 4) { //if total guests > max chairs at any table
+        printf("Too many guests.\n");
+        exit(0);
+    } else if (userIntArray[profile][3] == 2) {
+        printf("Table booking not available for the Bed & Breakfast plan.\n")
+        exit(0);
+    }
     // Key: userCharArray[profile][which var][which letter of string]
     // Key: userIntArray[profile][variable]
 
@@ -272,7 +272,7 @@ int main() {
     }
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 2; j++) {
-            for (int k = 0; k < 64; k++) {
+            for (int k = 0; k < 64; k++) {             // these for loops just make our arrays more predictable
                 userCharArray[i][j][k] = k;
             }
         }

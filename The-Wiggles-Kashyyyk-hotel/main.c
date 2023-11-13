@@ -10,7 +10,7 @@
 
 
 #define maxStringVariables 3
-#define maxIntegerVariables 7
+#define maxIntegerVariables 8
 #define maxRoomVariables 1
 char userCharArray[6][maxStringVariables][64];
 int userIntArray[6][maxIntegerVariables];
@@ -31,6 +31,7 @@ int userRoomArray[6][maxRoomVariables];
 // daily newspaper option -> [4]
 // Date of birth -> [5]
 //Room number -> [6]
+//meals orders -> [7]
 
 //userRoomArray[room][in use]
 //1 - in use
@@ -45,13 +46,14 @@ int bookingIDRetriever() {
         printf("Enter bookingID (or 'exit' to exit): ");
         scanf("%s", enteredBookingID);
         printf("Input = %s\n", enteredBookingID);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i<6; i++) {
             if (!strcmp(enteredBookingID, userCharArray[i][2])) {
                 profile = i;
                 printf(">Match found with profile %d.", i);
                 done = 1;
             }
         }
+
         if (!strcmp(enteredBookingID, "exit")) {
             profile = 11;
             done = 1;
@@ -161,7 +163,7 @@ void checkOut() {
     int totalCost = 0;
     int roomCost = 0;
     int boardCost = 0;
-    int newsPaperCost
+    int newsPaperCost =0;
 
 
 
@@ -216,35 +218,103 @@ void checkOut() {
     else newsPaperCost = 0
 
     //if user age > 65 10% discount on the room rate
+
+    if (UserIntArray[profile][5]>65)
+    {
+        roomCost=roomCost*0.9
+    }
+
+
     // if any guests are 16 and under 50% discount on board rate for them
 
-    //show users booing id and main guests name
+    boardCost=(userIntArray[profile][1]*boardCost)+(userIntArray[profile][0]*0.5*boardCost);
+    //show users booking id and main guests name
+    printf("booking id is %c",profile);
+    printf("Main guest name is %c %c",userCharArray[profile][0],userCharArray[profile][1]);
     //each of the subtotals amounts frm amove where it is tleast >0
-    //display overall bill
+
+    totalCost=newsPaperCost+roomCost+boardCost;
+
+
+    if (newsPaperCost >0)
+    {
+        printf("Newspaper cost =%d",newsPaperCost)
+    }
+
+    if (roomCost >0)
+    {
+        printf("room cost =%d",roomCost)
+    }
+
+    if (boardCost >0)
+    {
+        printf("board cost =%d",boardCost)
+    }
+
+    printf("total cost =%d",totalCost);
+
     //update room occupancy and profile info.
 
-    //nice job!
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 64; j++) {
+            userCharArray[profile][i][j] = 0
+        }
+    }
 
-
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 64; i++) {
+            userIntArray[profile][i][j] = 0
+        }
+    }
 
 }
 
 
-void bookTable() {
+int bookTable(int tableBookings[3][7][2]) {
     //jonah
-    int profile = bookingIDRetriever();
+    fflush(stdin);
+    int profile = bookingIDRetriever();  //cases for exiting early
     if (profile > 10) {
         printf(">Exiting...\n")
         exit(0);
     }
 
-    if (userIntArray[profile][0] + userIntArray[profile][1] > 4) { //if total guests > max chairs at any table
-        printf("Too many guests.\n");
-        exit(0);
-    } else if (userIntArray[profile][3] == 2) {
+    if (userIntArray[profile][3] == 2) {
         printf("Table booking not available for the Bed & Breakfast plan.\n")
         exit(0);
+    } else if (userIntArray[profile][0] + userIntArray[profile][1] > 4) { //if total guests > max chairs at any table
+        printf("Too many guests.\n");
+        exit(0);
     }
+
+    //declerations
+    int desiredTime=11; //if still 11, make them try again.
+    int desiredDay=11;
+    int desiredTable=11;
+    char endDecision = 'r';
+    do {
+        printf("\n     --=Table booking=--\nPick a Time (enter 0 for 7pm, or 1 for 9pm): ");
+        scanf("%d", &desiredTime);
+    } while (desiredTime != 0 && desiredTime != 1);
+    do {
+    printf("Pick a Day (0=mon, 1=tue, 2=wed, 3=thu, 4=fri, 5=sat, 6=sun): ");
+    scanf("%d",&desiredDay);
+    } while (desiredTime != 0 && desiredTime != 1);
+    do {
+    printf("Pick a Table (0=Endor, 1=Naboo, 2=Tatooine): ");
+    scanf("%d",&desiredTable);
+    } while (desiredTime != 0 && desiredTime != 1);
+
+    if (tableBookings[desiredTable][desiredDay][desiredTime] < (userIntArray[profile][0] + userIntArray[profile][1])) {
+        printf("Space there is available.\n Type y to book this slot, type r to look for another slot, type e to exit: ")
+    }
+
+
+
+
+//    int tableBookings[3][7][2]; // 3 tables, 7 days, 2 times
+//meals orders -> [7] //userIntArray[profile][7]
+
     // Key: userCharArray[profile][which var][which letter of string]
     // Key: userIntArray[profile][variable]
 
@@ -253,11 +323,12 @@ void bookTable() {
 
     //task list:
     // store tables: tatooine [0], endor [1], naboo [2] -> int tables[3]
-    //take and validate booking id
-    // if (userIntArray[profile][3] == 2) then exit
-    //
+    // show table names
+    //7 pm or 9 m, everyday of the week
+    //validate table name and time
+    //update booking
 
-
+return(tableBookings[3][7][2]);
 }
 
 //main
@@ -265,6 +336,7 @@ int main() {
     //declaring variables and other shiz
     char choice = 'x';
     int roomsOccupied = 0;
+    int tableBookings[3][7][2]; // 3 tables, 7 days, 2 times
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 6; j++) {
             userIntArray[i][j] = j;
@@ -282,6 +354,16 @@ int main() {
         for (int j = 0; j < 1; j++) {
             userRoomArray[i][j] = 0;
         }
+    }
+
+    for (int i = 0; 3 < 6; i++) {   //clears table bookings
+        for (int j = 0; j < 7; j++) {
+            for (int k = 0; k < 2; k++) {
+                tableBookings[i][j][k] = 0;
+            }
+        }
+    }
+
 
 
 

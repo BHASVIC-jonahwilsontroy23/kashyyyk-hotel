@@ -1,12 +1,12 @@
 //notes section:
 //ben will try to break out code, so make sure to add validation checks!
 //need to have the profile data stored on the computer itself.
-//checkout will use temp variables and update global on finish, while the others can use global variables in the funcs.
-
+//checkout will use temp variables and update global on finish, while the others can use global variables in the func
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+
 
 
 #define maxStringVariables 3
@@ -88,6 +88,7 @@ void BoardType(int profile) {
 
 }
 //function area
+/*
 int checkIn(int roomsOccupied) {
     //ed
     // Key: userCharArray[profile][which var][which letter of string]
@@ -116,16 +117,255 @@ int checkIn(int roomsOccupied) {
     printf("how many children are included in your booking?");
     scanf("%d", &userIntArray[profile][0]);
     printf("how many adults are in your booking?");
-    scanf("%d",&userIntArray[profile][1]);
+    scanf("%d", &userIntArray[profile][1]);
     printf("how long are you staying for?");
     scanf("%d", &userIntArray[profile][2]);
     printf("what type of booking do you have? FB=0 HB=1 BB=2");
-    scanf("%d",&userIntArray[profile][2]);
+    scanf("%d", &userIntArray[profile][2]);
     printf("would you like a daily newspaper? yes=1 no=0");
-    scanf("%d",&userIntArray[profile][3]);
+    scanf("%d", &userIntArray[profile][3]);
     printf("what is your DOB? please write in format: ddmmyyyy");
-    scanf("%d",&userIntArray[profile][4]);
-    
+    scanf("%d", &userIntArray[profile][4]);
+    * /
+/*
+#define maxStringVariables 3
+#define maxIntegerVariables 7
+#define maxRoomVariables 2
+char userCharArray[6][maxStringVariables][64];
+int userIntArray[6][maxIntegerVariables];
+int userRoomArray[6][maxRoomVariables];
+//TODO: Different approach to room number below needs to be consistent with arrays above
+int roomDetailsIntArray[7][maxRoomVariables];
+int boardRatesIntArray[3];
+//TODO: Discuss use of RoomNumber vs Profile.
+*/
+
+//Note TREAT PROFILE = ROOM
+
+//variable dictionary:
+//userCharArray[profile][which var]'s variables:
+// name -> [0]
+// surname -> [1]
+// bookingID -> [2]
+//
+
+//userIntArray[profile][which var]'s   variables:
+// child guest count -> [0]
+// adult guest count -> [1]
+// length of stay -> [2]
+// board type (FB=0, HB=1, BB=2)-> [3]
+// daily newspaper option -> [4]
+// Date of birth -> [5]
+// Room number -> [6]
+
+//userRoomArray[room][in use]
+//1 - in use
+//0 - not in use
+
+//roomDetailsIntArray
+// Room Number -> [0]
+// Room Rate -> [1]
+//boardRatesIntArray
+
+
+// Full Board Rate -> [0]
+// Half Board Rate -> [1]
+// B&B -> [2]
+}
+/*
+void setRoomAndBoardPrices(){
+    //room number maps to index
+    roomDetailsIntArray[0][0] = 0;  //Not used
+    roomDetailsIntArray[1][0] = 1;
+    roomDetailsIntArray[2][0] = 2;
+    roomDetailsIntArray[3][0] = 3;
+    roomDetailsIntArray[4][0] = 4;
+    roomDetailsIntArray[5][0] = 5;
+    roomDetailsIntArray[6][0] = 6;
+
+    //room price
+    roomDetailsIntArray[1][1] = 100;
+    roomDetailsIntArray[2][1] = 100;
+    roomDetailsIntArray[3][1] = 85;
+    roomDetailsIntArray[4][1] = 75;
+    roomDetailsIntArray[5][1] = 75;
+    roomDetailsIntArray[6][1] = 50;
+
+    //board rates
+    boardRatesIntArray[0]=20;
+    boardRatesIntArray[1]=15;
+    boardRatesIntArray[2]=5;
+
+}
+
+int isRoomAvailable(int roomNumber){
+    //Is the room/profile in use
+    if (userIntArray[roomNumber][6])
+        return 0;
+    else return 1;
+}
+
+void showAvailableRoomDetails(){
+    //TODO: Consider use of Dates for room bookings
+    char varRoomDetails[2000];
+    char buffer[3];
+    char tempVal = 0;
+    for (int roomNum  = 1; roomNum < 7; roomNum++) {
+
+        if (isRoomAvailable(roomNum)) {
+
+            strcat(varRoomDetails, "\n Room Rate for Room ");
+            sprintf(buffer, "%d", roomNum);
+            strcat(varRoomDetails, buffer);
+
+
+            strcat(varRoomDetails, "is: ");
+            sprintf(buffer, "%d", roomDetailsIntArray[roomNum][1]);
+            strcat(varRoomDetails, buffer);
+
+        }
+    }
+
+    strcat(varRoomDetails, "\n Full Board rate is: ");
+    sprintf(buffer, "%d", boardRatesIntArray[0]);
+    strcat(varRoomDetails, buffer);
+
+    strcat(varRoomDetails, "\n Half Board Rate is: ");
+    sprintf(buffer, "%d", boardRatesIntArray[1]);
+    strcat(varRoomDetails, buffer);
+    strcat(varRoomDetails, "\n B&B rate is: ");
+    sprintf(buffer, "%d", boardRatesIntArray[2]);
+    strcat(varRoomDetails, buffer);
+
+    printf(varRoomDetails);
+
+}
+*/
+void getRoomBooking(const char *enteredBookingID, int roomNumber, int done) {
+    for (int i = 0; i < 6; i++) {
+        if (!strcmp(enteredBookingID, userCharArray[i][2])) {
+            roomNumber = i;
+            printf(">Match found with profile %d.", i);
+            done = 1;
+        }
+    }
+}
+
+//bookingIDRetriever
+/*int getProfileForBookingID() {
+    char enteredBookingID[68];
+    int roomNumber = 12;
+    int done = 0;
+    fflush(stdin);
+    do {
+        printf("Enter bookingID (or 'exit' to exit): ");
+        scanf("%s", enteredBookingID);
+        if (!strcmp(enteredBookingID, "exit")) {
+            exit(0);
+        }
+
+        getRoomBooking(enteredBookingID, roomNumber, done);
+        if (!done) printf("Try again.\n");
+    }while (!done);
+
+    return roomNumber;
+}
+*/
+
+int getProfileForBookingID() {
+    char enteredBookingID[68];
+    int profile = 12;
+    int done = 0;
+    fflush(stdin);
+    do {
+        printf("Enter bookingID (or 'exit' to exit): ");
+        scanf("%s", enteredBookingID);
+        printf("Input = %s\n", enteredBookingID);
+        for (int i = 0; i<6; i++) {
+            if (!strcmp(enteredBookingID, userCharArray[i][2])) {
+                profile = i;
+                printf(">Match found with profile %d.", i);
+                done = 1;
+            }
+        }
+
+        if (!strcmp(enteredBookingID, "exit")) {
+            profile = 11;
+            done = 1;
+        }
+        if (!done) {
+            printf("Try again.\n");
+        }
+    } while (!done);
+    return profile;
+}
+
+char const* getBoardTypeFullName  (int intBoardType)
+{
+    //TODO: ASk teacher what is going on?????
+    const char* boardTypeLocal = "Full Board";
+
+    if (intBoardType == 0 ) boardTypeLocal = "Full Board";
+    else if (intBoardType == 1 ) boardTypeLocal = "Half Board";
+    else if (intBoardType == 2 ) boardTypeLocal = "Bed and Breakfast";
+    else boardTypeLocal = "Unknown";
+
+    return boardTypeLocal;
+}
+
+void showRoomDetails(int roomNum){
+    printf("\n%d Children are included",userIntArray[roomNum][0]);
+    printf("\n%d adults are included",userIntArray[roomNum][1]);
+    printf("\nyou are staying for %d days",userIntArray[roomNum][2]);
+    ///TODO change to char, makes it prettier
+    printf("\nyou have board type %d (FB=0 HB=1 BB=2)",getBoardTypeFullName(userIntArray[roomNum][2]));
+    printf("\ndid you want a newspaper? %d yes=1 no=0",userIntArray[roomNum][3]);
+    //TODO convert date format
+    printf("\nyour date of birth is, %d", userIntArray[roomNum][4]);
+    printf("\nyour name is %s %s", userCharArray[roomNum][0],userCharArray[roomNum][1]);
+    printf("\nyou are staying in room %d", roomNum);
+
+}
+
+void makeBooking(int roomNumber) {
+    //ed
+    // Key: userCharArray[profile][which var][which letter of string]
+    // Key: userIntArray[profile][variable]
+
+    //task list:
+    //display room options - Done in Main
+    //TODO Date of birth (in days since year 0) as integer array ints
+
+
+    //TODO if (roomsAvailable == 0) Exit
+    fflush(stdin);
+
+    printf("how many children are included in your booking?");
+    scanf("%d", &userIntArray[roomNumber][0]);
+    printf("how many adults are in your booking?");
+    scanf("%d",&userIntArray[roomNumber][1]);
+    printf("how long are you staying for?");
+    scanf("%d", &userIntArray[roomNumber][2]);
+    printf("what type of booking do you have?\n (FB=0 HB=1 BB=2)");
+    scanf("%d",&userIntArray[roomNumber][2]);
+    printf("would you like a daily newspaper? yes=1 no=0");
+    scanf("%d",&userIntArray[roomNumber][3]);
+    printf("what is your DOB? please write in format: ddmmyyyy");
+    scanf("%d",&userIntArray[roomNumber][4]);
+
+
+
+    printf("What is your first name");
+    scanf("%s",&userCharArray[roomNumber][0]);
+    printf("What is your last name");
+    scanf("%s",&userCharArray[roomNumber][1]);
+
+    printf("Enter your preferred booking reference (first, last and a random single digit number)");
+    scanf("%s",&userCharArray[roomNumber][2]);
+
+    //TODO: How to assign a value to an array
+    //userCharArray[roomNumber][2] = "EdBell1";  //MakeBookingId(userCharArray[roomNumber][0], userCharArray[roomNumber][1]);
+    //int r = rand() %10;
 
 
 
@@ -333,6 +573,51 @@ int bookTable(int tableBookings[3][7][2]) {
 return(tableBookings[3][7][2]);
 }
 
+void profileStatus(int profile) { //prints profile in a readable format
+    printf("\n");
+    for (int var =0; var < 3; var++) {
+        switch(var) {
+            case(0) {
+                printf("Name: %s\n",userCharArray[profile][0]);
+            }
+            case(1) {
+                printf("Surname: %s\n",userCharArray[profile][1]);
+            }
+            case(2) {
+                printf("bookingID: %s\n",userCharArray[profile][2]);
+            }
+        }
+    }
+    for (int var =0; var < 8; var++) {
+        switch(var) {
+            case(0) {
+                printf("child guest count: %d\n",userIntArray[profile][0]);
+            }
+            case(1) {
+                printf("adult guest count: %d\n",userIntArray[profile][1]);
+            }
+            case(2) {
+                printf("length of stay: %d\n",userIntArray[profile][2]);
+            }
+            case(3) {
+                printf("board type: %d\n",userIntArray[profile][3]);
+            }
+            case(4) {
+                printf("newspaper: %d\n",userIntArray[profile][4]);
+            }
+            case(5) {
+                printf("DoB: %d\n",userIntArray[profile][5]);
+            }
+            case(6) {
+                printf("Room number: %d\n",userIntArray[profile][6]);
+            }
+            case(7) {
+                printf("Meals ordered: %d\n",userIntArray[profile][7]);
+            }
+        }
+    }
+}
+
 //main
 int main() {
     //declaring variables and other shiz
@@ -341,13 +626,13 @@ int main() {
     int tableBookings[3][7][2]; // 3 tables, 7 days, 2 times
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 6; j++) {
-            userIntArray[i][j] = j;
+            userIntArray[i][j] = -1;
         }
     }
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 64; k++) {             // these for loops just make our arrays more predictable
-                userCharArray[i][j][k] = k;
+                userCharArray[i][j][k] = 0;
             }
         }
     }
@@ -358,7 +643,7 @@ int main() {
         }
     }
 
-    for (int i = 0; 3 < 6; i++) {   //clears table bookings
+    for (int i = 0; i < 3; i++) {   //clears table bookings
         for (int j = 0; j < 7; j++) {
             for (int k = 0; k < 2; k++) {
                 tableBookings[i][j][k] = 0;
@@ -368,9 +653,26 @@ int main() {
 
 
 
+    //dummy profile 0
+    userCharArray[0][0] = "John"; //name
+    userCharArray[0][1] = "Smith"; //surname
+    userCharArray[0][0] = "JohnSmith9999"; //bookingID
+    userIntArray[0][0] = 1; //child guests
+    userIntArray[0][1] = 1; //adult guest
+    userIntArray[0][2] = 4; //length of stay
+    userIntArray[0][3] = 0; // full board
+    userIntArray[0][4] = 1;// yes daily newspaper
+    userIntArray[0][5] = 01012000; // 01/01/2000
+    userIntArray[0][6] = 3; //room 3
+    userIntArray[0][7] = 0; //zero meal orders at start
+
+
 
     while (1) {           // choice loop
-        printf("\nChoose a function (i to check in, o to check out, or b to book a table):\n");
+        printf("\nYou have returned to the menu.\n");
+        profileStatus(0); //prints profile in a readable format
+
+        printf("\nChoose a function (i to check in, o to check out, or b to book a table):");
         scanf(" %c", &choice);
         if (choice == 'i') {          // check in
             //ed

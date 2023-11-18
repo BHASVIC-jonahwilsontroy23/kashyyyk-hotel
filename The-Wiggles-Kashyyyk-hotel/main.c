@@ -43,7 +43,7 @@ int bookingIDRetriever() {
     int done = 0;
     fflush(stdin);
     do {
-        printf("Enter bookingID (or 'exit' to exit): ");
+        printf("\nEnter bookingID (or 'exit' to exit): ");
         scanf("%s", enteredBookingID);
         printf("Input = %s\n", enteredBookingID);
         for (int i = 0; i<6; i++) {
@@ -508,49 +508,57 @@ void checkOut() {
 }
 
 
+
 int bookTable(int tableBookings[3][7][2]) {
     //jonah
     fflush(stdin);
     int profile = bookingIDRetriever();  //cases for exiting early
     if (profile > 10) {
         printf(">Exiting...\n");
-        return(tableBookings[3][7][2]);
+        return (tableBookings[3][7][2]);
     }
 
     if (userIntArray[profile][3] == 2) {
         printf("Table booking not available for the Bed & Breakfast plan.\n");
-        return(tableBookings[3][7][2]);
+        return (tableBookings[3][7][2]);
     } else if (userIntArray[profile][0] + userIntArray[profile][1] > 4) { //if total guests > max chairs at any table
         printf("Too many guests.\n");
-        return(tableBookings[3][7][2]);
+        return (tableBookings[3][7][2]);
     }
 
     //declerations
-    int desiredTime=11; //if still 11, make them try again.
-    int desiredDay=11;
-    int desiredTable=11;
+    int desiredTime = 11; //if still 11, make them try again.
+    int desiredDay = 11;
+    int desiredTable = 11;
     char endDecision = 'r';
 
     //user inputs and their validations
     do {
-        printf("\n     --=Table booking=--\nPick a Time (enter 0 for 7pm, or 1 for 9pm): ");
-        scanf("%d", &desiredTime);
-    } while (desiredTime != 0 && desiredTime != 1);
-    do {
-    printf("Pick a Day (0=mon, 1=tue, 2=wed, 3=thu, 4=fri, 5=sat, 6=sun): ");
-    scanf("%d",&desiredDay);
-    } while (desiredDay > 6 || desiredDay < 0);
-    do {
-    printf("Pick a Table (0=Endor, 1=Naboo, 2=Tatooine): ");
-    scanf("%d",&desiredTable);
-    } while (desiredTable > 2 || desiredTable < 0);
+        do {
+            printf("\n     --=Table booking=--\nPick a Time (enter 0 for 7pm, or 1 for 9pm): ");
+            scanf("%d", &desiredTime);
+        } while (desiredTime != 0 && desiredTime != 1);
+        do {
+            printf("Pick a Day (0=mon, 1=tue, 2=wed, 3=thu, 4=fri, 5=sat, 6=sun): ");
+            scanf("%d", &desiredDay);
+        } while (desiredDay > 6 || desiredDay < 0);
+        do {
+            printf("Pick a Table (0=Endor, 1=Naboo, 2=Tatooine): ");
+            scanf("%d", &desiredTable);
+        } while (desiredTable > 2 || desiredTable < 0);
 
-    if (tableBookings[desiredTable][desiredDay][desiredTime] < (userIntArray[profile][0] + userIntArray[profile][1])) {
-        printf("Space there is available.\n Type y to book this slot, ");
-    }
-    printf("type r to look for another slot, type e to exit: ");
-    scanf("%c",endDecision); //maybe add ampersand!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        if (tableBookings[desiredTable][desiredDay][desiredTime] <= (userIntArray[profile][0] + userIntArray[profile][1])) {
+            printf("%d seats there is available.\n Type y to book this slot, ", 4-tableBookings[desiredTable][desiredDay][desiredTime]);
+        }
+        printf("type r to look for another slot, type e to exit: ");
+        scanf(" %c", &endDecision); //maybe add ampersand!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (endDecision == 'y' && tableBookings[desiredTable][desiredDay][desiredTime] == 0) {
+            tableBookings[desiredTable][desiredDay][desiredTime] += (userIntArray[profile][0] + userIntArray[profile][1]);
+            userIntArray[profile][7]++; //increments meals booked variable
+        } else if (tableBookings[desiredTable][desiredDay][desiredTime] == 1) {
+            printf("Space is not available in the specified time slot.");
+        }
+    } while (endDecision == 'r' || endDecision == 'a');
 
 
 
@@ -570,52 +578,22 @@ int bookTable(int tableBookings[3][7][2]) {
     //validate table name and time
     //update booking
 
-return(tableBookings[3][7][2]);
+    return(tableBookings);
 }
 
 void profileStatus(int profile) { //prints profile in a readable format
     printf("\n");
-    for (int var =0; var < 3; var++) {
-        switch(var) {
-            case(0) {
-                printf("Name: %s\n",userCharArray[profile][0]);
-            }
-            case(1) {
-                printf("Surname: %s\n",userCharArray[profile][1]);
-            }
-            case(2) {
-                printf("bookingID: %s\n",userCharArray[profile][2]);
-            }
-        }
-    }
-    for (int var =0; var < 8; var++) {
-        switch(var) {
-            case(0) {
-                printf("child guest count: %d\n",userIntArray[profile][0]);
-            }
-            case(1) {
-                printf("adult guest count: %d\n",userIntArray[profile][1]);
-            }
-            case(2) {
-                printf("length of stay: %d\n",userIntArray[profile][2]);
-            }
-            case(3) {
-                printf("board type: %d\n",userIntArray[profile][3]);
-            }
-            case(4) {
-                printf("newspaper: %d\n",userIntArray[profile][4]);
-            }
-            case(5) {
-                printf("DoB: %d\n",userIntArray[profile][5]);
-            }
-            case(6) {
-                printf("Room number: %d\n",userIntArray[profile][6]);
-            }
-            case(7) {
-                printf("Meals ordered: %d\n",userIntArray[profile][7]);
-            }
-        }
-    }
+    printf("Name: %s\n",userCharArray[profile][0]);
+    printf("Surname: %s\n",userCharArray[profile][1]);
+    printf("bookingID: %s\n",userCharArray[profile][2]);
+    printf("child guest count: %d\n",userIntArray[profile][0]);
+    printf("adult guest count: %d\n",userIntArray[profile][1]);
+    printf("length of stay: %d\n",userIntArray[profile][2]);
+    printf("board type: %d\n",userIntArray[profile][3]);
+    printf("newspaper: %d\n",userIntArray[profile][4]);
+    printf("DoB: %d\n",userIntArray[profile][5]);
+    printf("Room number: %d\n",userIntArray[profile][6]);
+    printf("Meals booked: %d\n",userIntArray[profile][7]);
 }
 
 //main

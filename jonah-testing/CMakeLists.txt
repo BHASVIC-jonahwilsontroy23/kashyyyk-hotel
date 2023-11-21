@@ -3,4 +3,5 @@ project(jonah_testing C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(jonah_testing main.c)
+add_executable(jonah_testing main.c
+        main.h)

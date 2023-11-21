@@ -221,7 +221,22 @@ void checkOut() {
     }
 
 }
-
+int bookTableVariableVerifying(int i, int tempInput) {
+    if (i==0) {
+        if (tempInput != 0 && tempInput != 1) {
+            return(0);
+        }
+    } else if (i==1) {
+        if (tempInput > 6 || tempInput < 0) {
+            return(0);
+        }
+    } else {
+        if (tempInput > 2 || tempInput < 0) {
+            return(0);
+        }
+    }
+    return(1);
+}
 
 int bookTable(int tableBookings[3][7][2]) {
     //jonah
@@ -231,35 +246,51 @@ int bookTable(int tableBookings[3][7][2]) {
         printf(">Exiting...\n");
         return (tableBookings[3][7][2]);
     }
-
     if (userIntArray[profile][3] == 2) {
         printf("Table booking not available for the Bed & Breakfast plan.\n");
         return (tableBookings[3][7][2]);
     } else if (userIntArray[profile][0] + userIntArray[profile][1] > 4) { //if total guests > max chairs at any table
-        printf("Too many guests.\n");
+        printf("Too ma ny guests.\n");
         return (tableBookings[3][7][2]);
     }
 
     //declerations
-    int desiredTime = 11; //if still 11, make them try again.
-    int desiredDay = 11;
-    int desiredTable = 11;
+    int desiredTime = -1;
+    int desiredDay = -1;
+    int desiredTable = -1;
     char endDecision = 'r';
 
     //user inputs and their validations
     do {
-    do {
-        printf("\n     --=Table booking=--\nPick a Time (enter 0 for 7pm, or 1 for 9pm): ");
-        scanf("%d", &desiredTime);
-    } while (desiredTime != 0 && desiredTime != 1);
-    do {
-        printf("Pick a Day (0=mon, 1=tue, 2=wed, 3=thu, 4=fri, 5=sat, 6=sun): ");
-        scanf("%d", &desiredDay);
-    } while (desiredDay > 6 || desiredDay < 0);
-    do {
-        printf("Pick a Table (0=Endor, 1=Naboo, 2=Tatooine): ");
-        scanf("%d", &desiredTable);
-    } while (desiredTable > 2 || desiredTable < 0);
+        printf("\n     --=Table booking=--");
+        for (int i; i < 3; i++) {
+            int tempInput = -1;
+            do {
+                    if (i == 0) {
+                        printf("Pick a Time (enter 0 for 7pm, or 1 for 9pm): ");
+                    } else if (i==1) {
+                        printf("Pick a Day (0=mon, 1=tue, 2=wed, 3=thu, 4=fri, 5=sat, 6=sun): ");
+                    } else {
+                        printf("Pick a Table (0=Endor, 1=Naboo, 2=Tatooine): ");
+                    }
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF);
+                scanf("%d", &tempInput);
+            } while (!bookTableVariableVerifying(i, tempInput)); // loops if not valid
+            switch(i) {
+                case 0: {
+                    desiredTime = tempInput;
+                }
+                case 1: {
+                    desiredDay = tempInput;
+                }
+                case 2: {
+                    desiredTable = tempInput;
+                }
+            }
+        }
+
+
 
     if (tableBookings[desiredTable][desiredDay][desiredTime] <= (userIntArray[profile][0] + userIntArray[profile][1])) {
         printf("%d seats there is available.\n Type y to book this slot, ", 4-tableBookings[desiredTable][desiredDay][desiredTime]);
@@ -273,6 +304,10 @@ int bookTable(int tableBookings[3][7][2]) {
               printf("Space is not available in the specified time slot.");
           }
 } while (endDecision == 'r' || endDecision == 'a');
+
+    if (endDecision == 'e') {
+        return(tableBookings);
+    }
 
 
 
@@ -291,7 +326,6 @@ int bookTable(int tableBookings[3][7][2]) {
     //7 pm or 9 m, everyday of the week
     //validate table name and time
     //update booking
-
     return(tableBookings);
 }
 

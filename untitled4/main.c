@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <windows.h>
 
 ////TODO: Different approach to room number below needs to be consistent with arrays above
 
@@ -33,7 +34,7 @@ int boardRatesIntArray[3];
 // length of stay -> [2]
 // board type (FB=0, HB=1, BB=2)-> [3]
 // daily newspaper option -> [4]
-// Date of birth -> [5]
+// Date of birth-> [5]
 //Room number -> [6]
 //meals orders -> [7]
 
@@ -78,6 +79,7 @@ void initTableBookingsVar() {
 }
 
 //Utility Functions
+//Utility Functions
 void testBooking(){
 
     //Children
@@ -104,6 +106,18 @@ void testBooking(){
     //printf("Enter your preferred booking reference (first, last and a random single digit number)");
     strcpy(userCharArray[1][2],"test1");
 
+    //dummy profile 0
+    strcpy(userCharArray[0][0], "John"); // name
+    strcpy(userCharArray[0][1], "Smith"); //surname
+    strcpy(userCharArray[0][2], "JohnSmith9999"); //bookingID
+    userIntArray[0][0] = 1; //child guests
+    userIntArray[0][1] = 1; //adult guest
+    userIntArray[0][2] = 4; //length of stay
+    userIntArray[0][3] = 0; // full board
+    userIntArray[0][4] = 1;// yes daily newspaper
+    userIntArray[0][5] = 01012000; // 01/01/2000
+    userIntArray[0][6] = 3; //room 3
+    userIntArray[0][7] = 1; //zero meal orders at start
 }
 
 void setRoomAndBoardPrices(){
@@ -137,13 +151,13 @@ int bookingIDRetriever() {
     int done = 0;
     fflush(stdin);
     do {
-        printf("\nEnter bookingID (or 'exit' to exit): ");
+        printf("\nEnter bookingID (or 'exit' to exit):\n");
         scanf("%s", enteredBookingID);
-        printf("Input = %s\n", enteredBookingID);
+        printf("\n>Inputted = %s.", enteredBookingID);
         for (int i = 0; i<6; i++) {
             if (!strcmp(enteredBookingID, userCharArray[i][2])) {
                 profile = i;
-                printf(">Match found with profile %d.", i);
+                printf("\n>Match found with profile %d.\n", i);
                 done = 1;
             }
         }
@@ -205,6 +219,27 @@ char* getBoardTypeFullName (int intBoardType)
     return boardTypeLocal;
 }
 
+//DATE SPLIT
+/*void splitString(const char *input, char *output[]) {
+
+    int temp = 0;
+
+    if (strlen(input) != 6) {
+        printf("Input string must have exactly 6 characters.\n");
+        return;
+    }
+
+    // Copy two characters at a time into the output array
+    for (int i = 0, j = 0; i < 6; i += 2, j++) {
+        strncpy(output[j], input + i, 2);
+
+
+
+    }
+}
+char dobSplit[4][3]; // Array to store four 2-character strings
+
+*/
 //Dupe of Show room details
 void profileStatus(int profile) { //prints profile in a readable format
     printf("\n");
@@ -242,7 +277,7 @@ void showAvailableRoomDetails(){
 
         }
         else {
-            strcat(varRoomDetails, "\n This room isn't available, Room#");
+            strcat(varRoomDetails, "\n This room isn't available, Room");
             sprintf(buffer, "%d", roomNum);
             strcat(varRoomDetails, buffer);
         }
@@ -316,7 +351,6 @@ int bookTable(int tableBookings[3][7][2]) {
         printf(">Exiting...\n");
         return (tableBookings[3][7][2]);
     }
-
     if (userIntArray[profile][3] == 2) {
         printf("Table booking not available for the Bed & Breakfast plan.\n");
         return (tableBookings[3][7][2]);
@@ -327,44 +361,60 @@ int bookTable(int tableBookings[3][7][2]) {
 
 
     //declerations
-    int desiredTime = 11; //if still 11, make them try again.
-    int desiredDay = 11;
-    int desiredTable = 11;
+    int desiredTime = -1; //if still -1, make them try again.
+    int desiredDay = -1;
+    int desiredTable = -1;
     char endDecision = 'r';
 
     //user inputs and their validations
+        printf("\n      Table Booking\n");
     do {
+        int c;
+        if (endDecision == 'r') {
+            printf(">Booking new table...\n");
+        }
         do {
-            printf("\n     --=Table booking=--\nPick a Time (enter 0 for 7pm, or 1 for 9pm): ");
+            printf("Pick a Time:\n[0] 7pm\n[1] 9pm\n");
+            while ((c = getchar()) != '\n' && c != EOF);
             scanf("%d", &desiredTime);
         } while (desiredTime != 0 && desiredTime != 1);
         do {
-            printf("Pick a Day (0=mon, 1=tue, 2=wed, 3=thu, 4=fri, 5=sat, 6=sun): ");
+            printf("\nPick a Day:\n[0] Monday\n[1] Tuesday\n[2] Wednesday\n[3] Thursday\n[4] Friday\n[5] Saturday\n[6] Sunday\n");
+            while ((c = getchar()) != '\n' && c != EOF);
             scanf("%d", &desiredDay);
         } while (desiredDay > 6 || desiredDay < 0);
         do {
-            printf("Pick a Table (0=Endor, 1=Naboo, 2=Tatooine): ");
+            printf("\nPick a Table:\n[0] Endor\n[1] Naboo\n[2] Tatooine\n");
+            while ((c = getchar()) != '\n' && c != EOF);
             scanf("%d", &desiredTable);
         } while (desiredTable > 2 || desiredTable < 0);
 
         if (tableBookings[desiredTable][desiredDay][desiredTime] <=
             (userIntArray[profile][0] + userIntArray[profile][1])) {
-            printf("%d seats there is available.\n Type y to book this slot, ",
-                   4 - tableBookings[desiredTable][desiredDay][desiredTime]);
+            printf("\n%d seat(s) there is/are available.\n[y] Book this slot\n", 4 - tableBookings[desiredTable][desiredDay][desiredTime]);
+        } else {
+            printf("\nThere are not enough seats available there.\n");
         }
-        printf("type r to look for another slot, type e to exit: ");
-        scanf(" %c",
-              &endDecision); //maybe add ampersand!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (endDecision == 'y' && tableBookings[desiredTable][desiredDay][desiredTime] == 0) {
-            tableBookings[desiredTable][desiredDay][desiredTime] += (userIntArray[profile][0] +
-                                                                     userIntArray[profile][1]);
+        printf("[t] try another slot\n[e] Exit\n");
+        scanf(" %c", &endDecision); //maybe add ampersand!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        while (endDecision != 't' && endDecision != 'y' && endDecision != 'e' && endDecision != 'a') {
+            printf("\n>Input not accepted. Try again.");
+            scanf(" %c", &endDecision);
+        }
+        if (endDecision == 'y' && (4-tableBookings[desiredTable][desiredDay][desiredTime]) >= (userIntArray[profile][0] + userIntArray[profile][1])) {
+            tableBookings[desiredTable][desiredDay][desiredTime] += (userIntArray[profile][0] + userIntArray[profile][1]);
             userIntArray[profile][7]++; //increments meals booked variable
-        } else if (tableBookings[desiredTable][desiredDay][desiredTime] == 1) {
-            printf("Space is not available in the specified time slot.");
+            //in case of yes ask for another booking of table
+            printf("Do you want to book another slot?\n[y] yes\n[e] exit\n");
+            scanf(" %c", &endDecision);
+        } else if (endDecision == 'y') {
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                .~~~~~~~~~~~~~~~~.                         \n                          ^77GGGB@@@@@@@@@@@@@@@@BGGG77~                   \n                       ^JB@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@BJ^                \n                     :J@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Y:              \n                     5@@@@@@&&&&&&&@@@@@@@@@@@@&&&&&&&@@@@@@P              \n                     5@@BJ?!.......!P@@@@@@@@P!.......!?JB@@P              \n                     Y@#.      !P5. 7@@@@@@@@J  5P7      .B@P              \n                     .7#BY?7:::^!:.Y&@#!:7&@@&5.:~~:::!?JB#?.              \n                      .7@@@@G#PYY5#@@#.   ^&@@@&5YYP&G&@@@?.               \n                      !@@GPJ Y55G&&&&#PPPPP#&&&&@G555:^?G@@?               \n                .!JJJ^:Y@&#GJ5:~P55!!PP~?PPP~7PY:J?:JB###@5^:JJY!.         \n              .Y#@@@@#J~7P#@@@GPG55^~BG:?BBB:7G5~Y#@@@@&P! !B@@B&#!        \n             .J&J^^^Y555PBGY!Y55P&&GPPPGPPPPPPG&&P55Y~^::7G&#Y~ !Y!:       \n            .!P^        :7JY#YY7:..~~:::::::~^...:::^JYP&#Y~      :!Y!     \n          !77~      5!     ~@7!5#~.?PPPPPPPP&5^~P&#PP7!!~   .!7:    ~77~.  \n        :JY^        #J  :::7@!~P#^7^:7PPPPP5#GY5Y&Y         ?&.       .^P! \n       !57          ##57!!!7?P~!5Y Y&#####G  .!@7BY    :~^YPB&.         .PP\n       75~.       .!5! .    .@Y~?@:5@@@@@@@G:7PJ!#Y 777J5~!:!#.          PG\n         ^77~:    ^@^       .JJ7?&:5@@@@@@@@^J#!5Y!!#:       ~B^        :55\n           .^!7~~:^@^         GP!&.JBBBBBBBB^Y#7@?7Y.        .@~     :~7!: \n              .^~!J&~..:::....BG?@?7777777777G&J@Y^..::::::..^@J!!!7::^    \n                   :~PG!7!?JJ7??7?^.         ~?7?JJJ7777777?5PJ~:::        \n                    YJ^  :5&5.                   P@G       7Y~             \n                    &?   G@G            ~!.      P@B.       !&             \n                  .YJ^ .Y&G!            5#!Y:    G@@#:      :?Y:           \n                  ^@:  :@@?           .~Y?.@~    :5@@:       .@~           \n                  :#~::^5P7.::::::::~77~. :#!::::.J@@Y~::::::~#^           \n                    ~!!!~?YYYYY?!!!!~.     .~!!!!JY555?!!!!!!~             \n                  :!!!!! JB&@@@Y                 P@@@@J.   ^!!7:.          \n                !P&@@@@@##G5JB#BY              .PB###PP5Y##@@@@&#BJ.       \n                Y#BBBBBBBBBG7.7JJ?.           :?JJJ7.5BB#BBBBBBBBG7.\n\n\n\n                              we're gonna have a bad time...\n\n\n                              ready?");
+            scanf("%d", &desiredTime);
+            return (tableBookings[3][7][2]);
         }
-    } while (endDecision == 'r' || endDecision == 'a');
+    } while (endDecision == 't' || endDecision == 'y');
 
-    return 1; //todo jonah fix...(int tableBookings )
+    return (tableBookings[3][7][2]); //todo jonah fix...(int tableBookings ) //fixed (was "return 1;" b4)
 }
 
 //CHECKOUT
@@ -442,10 +492,11 @@ void checkOut() {
 
     //if user age > 65 10% discount on the room rate
 
-    if (userIntArray[profile][5]>65)
-    {
-        roomCost=roomCost*0.9;
-    }
+
+
+
+
+
 
 
     // if any guests are 16 and under 50% discount on board rate for them
@@ -492,23 +543,41 @@ void checkOut() {
 }
 
 //MAIN
+//MAIN
 int main() {//declaring variables and other shiz
     int roomNum;
     char choice = 'x';
+    int tableBookings[3][7][2]; // 3 tables, 7 days, 2 times
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 6; j++) {
+            userIntArray[i][j] = -1;
+        }
+    }
+    for (int i = 0; i < 3; i++) {   //clears table bookings
+        for (int j = 0; j < 7; j++) {
+            for (int k = 0; k < 2; k++) {
+                tableBookings[i][j][k] = 0;
+            }
+        }
+    }
 
 // Set up Room prices.
     setRoomAndBoardPrices();
     initVars();
+    testBooking();
     while (1) {           // choice loop
-        printf("\n\nYou have returned to the menu.\n");
-
-        setbuf(stdout, 0); //Needed to display message in debug on windows
-        printf("\nChoose a function (r for room booking, c to check in, o to check out, or b to book a table):\n");
-        scanf(" %c", &choice);
-        if (choice == 'x'){
-            testBooking();  //add booking test1 to room 1
+        int viewprofiledetailschoice = 2;
+        printf("DEBUG: would you like to display a profile's details?\n[0] prof 0\n[1] prof 1\n[2,3,4,5] others (not filled in)\n[7] no.\n");
+        scanf("%d",&viewprofiledetailschoice);
+        if (viewprofiledetailschoice < 6) {
+            profileStatus(viewprofiledetailschoice);
         }
-        else if (choice == 'r') {          // check in
+
+        printf("\nslot 000 = %d, slot 001 = %d\n", tableBookings[0][0][0],tableBookings[0][0][1]);
+        setbuf(stdout, 0); //Needed to display message in debug on windows
+        printf("\nChoose a function:\n[b] Book room\n[i] Check profile info\n[o] Check out\n[t] Book a table\n");
+        scanf(" %c", &choice);
+        if (choice == 'b') {          // book room i think
             //ed
             printf(">These are our available rooms, pick one...\n");
             showAvailableRoomDetails();
@@ -519,7 +588,7 @@ int main() {//declaring variables and other shiz
             makeBooking(roomNum);
             printf("\n Thank you for you Booking");
         }
-        else if (choice == 'c') {//checkin
+        else if (choice == 'i') {//check prof info
             roomNum = 12;
             roomNum = getProfileForBookingID();  //Profile vs RoomNumber
             if (roomNum < 7) {
@@ -531,17 +600,17 @@ int main() {//declaring variables and other shiz
             //christian
             printf("\n>Checking out...");
             checkOut();
-        } else if (choice == 'b') {   // booking a table
+        } else if (choice == 't') {   // booking a table
             //jonah
-            int tableBookings[3][7][2];
-            initTableBookingsVar();
 
-            printf("\n>Booking in...");
+            printf("\n>Booking Table...");
             bookTable(tableBookings);
         } else {                   //invalid input
             printf("\n>Invalid Input. Try again.");
         }
         //this is the end of while loop
+        printf("\n\n\n\n\n\n\n\n\nYou have returned to the menu.\n\n\n\n\n\n\n");
+
     }
     return 0;
 

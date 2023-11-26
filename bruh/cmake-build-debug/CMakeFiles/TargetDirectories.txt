@@ -1,0 +1,3 @@
+C:/Users/choco/Documents/GitHub/kashyyyk-hotel/bruh/cmake-build-debug/CMakeFiles/bruh.dir
+C:/Users/choco/Documents/GitHub/kashyyyk-hotel/bruh/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/choco/Documents/GitHub/kashyyyk-hotel/bruh/cmake-build-debug/CMakeFiles/rebuild_cache.dir
